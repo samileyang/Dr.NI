@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-1.12.4.js"></script>
+</head>
+<body>
+    <div class="menu">
+
+    <ul style="margin-left: 20px">
+        <li style="font-size: 16px" onclick="window.location.href='/user_register'">宠物|商店</li>
+        <li><a href="">服务预约</a></li>
+        <li><a href="">宠物寄养</a></li>
+        <li><a href="">积分兑换</a></li>
+        <li><a href="">历史订单</a></li>
+        <li><a href="">我的宠物</a></li>
+    </ul>
+    <ul style="float: right">
+        <li><a href="">注册</a></li>
+        <li><a href="">登录</a></li>
+    </ul>
+</div>
+    {% block context %}
+        添加内容
+    {% endblock context %}
+</body>
+</html>
