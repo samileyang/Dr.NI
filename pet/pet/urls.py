@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^user_login/',views.user_login),
     url(r'^emp_main/',views.emp_main),
     url(r'^manager_main/',views.manager_main),
-    url(r'^shop/',views.shop),
+    url(r'^user_shop/',views.shop),
 ]
