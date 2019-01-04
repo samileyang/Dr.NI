@@ -20,8 +20,8 @@
         <li><a href="">我的宠物</a></li>
     </ul>
     <ul style="float: right">
-        <li><a href="">注册</a></li>
-        <li><a href="">登录</a></li>
+        <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+        <li><a onclick="window.location.href='/index'" >退出</a></li>
     </ul>
 </div>
     {% block context %}
