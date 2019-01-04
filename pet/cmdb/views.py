@@ -55,7 +55,21 @@ def user_register(request):
     return render(request,'user/user_register.html')
 
 def user_login(request):
-    return render(request,'user/user_login.html')
+    if request.method == 'GET':
+        return render(request, 'user/user_login.html')
+
+    if request.POST:
+        print ("username:",request.POST['username'])
+        print ("password:",request.POST['password'])
+        user=models.Member(username=request.POST['username'],password=request.POST['password'])
+        print ("user",user)
+        request.session['user_name'] = user.username
+        return render(request, 'user/user_shop.html')
+    else:
+        print('user is invalid')
+        return render(request, 'user/user_login.html')        
 
 def shop(request):
-    return render(request,'user/shop.html')
+    return render(request,'user/user_shop.html')
+
+
