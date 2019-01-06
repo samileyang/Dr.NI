@@ -1,0 +1,26 @@
+{% extends "user/user_header.html" %}
+{% block context %}
+   <div class="container">
+         <li>这是{{ request.session.user_name }}的宠物界面</li>
+         <table>
+            <tbody>
+                {% for mypet in mypets %}
+
+                    <tr>
+                   		<td>{{ mypet.pet_num }}</td>
+                    	<td>{{ mypet.pet_type }}</td>
+                        <td>{{ mypet.sex }}</td>
+                        <td>{{ mypet.status }}</td>
+                        <td>{{ mypet.size }}</td>
+                        <td>
+                            <button type="button" class="button btn-primary">
+                                <a>寄养</a>
+                            </button>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock context %}
