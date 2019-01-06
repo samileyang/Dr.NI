@@ -22,7 +22,7 @@ def add_product(request):
         stock_price = products.stock_price
         final_price = int(amount)*stock_price
         time = str(datetime.date.today())
-        stock = models.StockOrder(product_num = int(product_num), final_price =final_price,amount = amount,time=time)
+        stock = models.StockOrder(product_num = products, final_price =final_price,amount = amount,time=time)
         stock.save()
         products.save()
     except:
@@ -73,3 +73,9 @@ def shop(request):
     return render(request,'user/user_shop.html')
 
 
+def check_all(request):
+    stocks = models.StockOrder.objects.all()
+    services = models.ServiceReservation.objects.all()
+    salarys = models.SalaryOrder.objects.all()
+    fosters = models.FosterOrder.objects.all()
+    return render(request,'manager/check_all.html',{'stocks':stocks,'services':services,'salarys':salarys,'fosters':fosters})
