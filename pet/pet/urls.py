@@ -26,5 +26,8 @@ urlpatterns = [
     url(r'^user_login/',views.user_login),
     url(r'^emp_main/',views.emp_main),
     url(r'^manager_main/',views.manager_main),
-    url(r'^user_shop/',views.shop),
+    url(r'^user_products/', views.user_product),
+    url(r'^shopping_car/', views.shopping_car),
+    url(r'^add_product_to_car*', views.add_product_to_car),
+    url(r'^user_mypet*',views.user_mypet),
 ]
