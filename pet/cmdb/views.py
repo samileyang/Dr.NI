@@ -22,7 +22,7 @@ def add_product(request):
         stock_price = products.stock_price
         final_price = int(amount)*stock_price
         time = str(datetime.date.today())
-        stock = models.StockOrder(product_num = products, final_price =final_price,amount = amount,time=time)
+        stock = models.StockOrder(product_num = int(product_num), final_price =final_price,amount = amount,time=time)
         stock.save()
         products.save()
     except:
@@ -64,18 +64,42 @@ def user_login(request):
         user=models.Member(username=request.POST['username'],password=request.POST['password'])
         print ("user",user)
         request.session['user_name'] = user.username
-        return render(request, 'user/user_shop.html')
+        return render(request, 'user/user_products.html')
     else:
         print('user is invalid')
         return render(request, 'user/user_login.html')        
 
-def shop(request):
-    return render(request,'user/user_shop.html')
+
+def user_mypet(request):
+    username = request.session.get('user_name',None)
+    print(username)
+    usernum = models.Member.objects.get(username = username)
+    print(usernum.mem_num)
+    mypets = models.MemberPet.objects.filter(mem_num = usernum.mem_num)
+    return render(request,'user/user_mypet.html',{'mypets':mypets})
 
 
-def check_all(request):
-    stocks = models.StockOrder.objects.all()
-    services = models.ServiceReservation.objects.all()
-    salarys = models.SalaryOrder.objects.all()
-    fosters = models.FosterOrder.objects.all()
-    return render(request,'manager/check_all.html',{'stocks':stocks,'services':services,'salarys':salarys,'fosters':fosters})
+
+
+def user_product(request):
+    products = models.Inventory.objects.all()
+    return render(request, 'user/user_products.html', {'products': products})
+
+def shopping_car(request):
+    products = models.Inventory.objects.all()
+    for product in products:
+        p = models.Inventory.objects.get(product_num=product.product_num)
+        product.name = p.name
+        product.min = p.min
+
+    return render(request, 'user/shopping_car.html', {'products': products})
+
+def add_product_to_car(request):
+    product_order = models.Product_Order()
+    dict_to_bean(request.GET, product_order)
+    member = models.Member.objects.get(id=request.session['user_id'])
+    product_order.mem_num = member.mem_num
+    product_order.save()
+
+    products = models.Inventory.objects.all()
+    return render(request, 'suser/products.html', {'products': products})
