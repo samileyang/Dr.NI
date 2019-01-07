@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : xxc
  Source Server Type    : MySQL
- Source Server Version : 50720
- Source Host           : localhost:3306
+ Source Server Version : 50723
+ Source Host           : localhost:54321
  Source Schema         : pet2
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 06/01/2019 19:04:45
+ Date: 07/01/2019 16:31:40
 */
 
 SET NAMES utf8mb4;
@@ -144,7 +144,7 @@ CREATE TABLE `auth_user`  (
   `email` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
+  `date_joined` datetime(6) NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -185,9 +185,16 @@ CREATE TABLE `auth_user_user_permissions`  (
 DROP TABLE IF EXISTS `cage`;
 CREATE TABLE `cage`  (
   `cage_num` int(11) NOT NULL,
-  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`cage_num`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of cage
+-- ----------------------------
+INSERT INTO `cage` VALUES (1, 1);
+INSERT INTO `cage` VALUES (2, 1);
+INSERT INTO `cage` VALUES (3, 1);
 
 -- ----------------------------
 -- Table structure for credit_order
@@ -203,7 +210,7 @@ CREATE TABLE `credit_order`  (
   PRIMARY KEY (`order_num`) USING BTREE,
   INDEX `credit_order_mem_num_dac74be3_fk_member_mem_num`(`mem_num`) USING BTREE,
   INDEX `credit_order_product_num_9ede77ef_fk_inventory_product_num`(`product_num`) USING BTREE,
-  CONSTRAINT `credit_order_mem_num_dac74be3_fk` FOREIGN KEY (`mem_num`) REFERENCES `member` (`mem_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `credit_order_mem_num_dac74be3_fk_member_mem_num` FOREIGN KEY (`mem_num`) REFERENCES `member` (`mem_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `credit_order_product_num_9ede77ef_fk_inventory_product_num` FOREIGN KEY (`product_num`) REFERENCES `inventory` (`product_num`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -213,7 +220,7 @@ CREATE TABLE `credit_order`  (
 DROP TABLE IF EXISTS `django_admin_log`;
 CREATE TABLE `django_admin_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_time` datetime(6) NOT NULL,
+  `action_time` datetime(6) NULL,
   `object_id` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `object_repr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `action_flag` smallint(5) UNSIGNED NOT NULL,
@@ -268,9 +275,9 @@ CREATE TABLE `django_migrations`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `applied` datetime(6) NOT NULL,
+  `applied` datetime(6) NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -293,8 +300,13 @@ INSERT INTO `django_migrations` VALUES (15, 'cmdb', '0001_initial', '2018-12-31 
 INSERT INTO `django_migrations` VALUES (16, 'sessions', '0001_initial', '2018-12-31 08:46:28.496184');
 INSERT INTO `django_migrations` VALUES (17, 'cmdb', '0002_auto_20181231_2118', '2018-12-31 13:19:02.315485');
 INSERT INTO `django_migrations` VALUES (18, 'cmdb', '0003_auto_20181231_2227', '2018-12-31 14:27:57.671578');
-INSERT INTO `django_migrations` VALUES (19, 'cmdb', '0002_auto_20190106_1311', '2019-01-06 05:20:16.120589');
-INSERT INTO `django_migrations` VALUES (20, 'cmdb', '0003_auto_20190106_1317', '2019-01-06 05:20:17.742660');
+INSERT INTO `django_migrations` VALUES (19, 'cmdb', '0002_auto_20190102_2015', '2019-01-02 12:16:12.841729');
+INSERT INTO `django_migrations` VALUES (20, 'cmdb', '0003_auto_20190102_2019', '2019-01-02 13:18:35.534243');
+INSERT INTO `django_migrations` VALUES (21, 'cmdb', '0004_auto_20190104_1943', '2019-01-04 11:43:19.494068');
+INSERT INTO `django_migrations` VALUES (22, 'cmdb', '0005_auto_20190105_1626', '2019-01-05 08:27:23.824381');
+INSERT INTO `django_migrations` VALUES (23, 'cmdb', '0006_auto_20190106_2159', '2019-01-06 13:59:27.180379');
+INSERT INTO `django_migrations` VALUES (24, 'cmdb', '0007_fosterorder_endtime', '2019-01-06 14:17:19.292974');
+INSERT INTO `django_migrations` VALUES (25, 'cmdb', '0008_auto_20190107_0115', '2019-01-06 17:16:10.231589');
 
 -- ----------------------------
 -- Table structure for django_session
@@ -303,15 +315,10 @@ DROP TABLE IF EXISTS `django_session`;
 CREATE TABLE `django_session`  (
   `session_key` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `session_data` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `expire_date` datetime(6) NOT NULL,
+  `expire_date` datetime(6) NULL,
   PRIMARY KEY (`session_key`) USING BTREE,
   INDEX `django_session_expire_date_a5c62663`(`expire_date`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of django_session
--- ----------------------------
-INSERT INTO `django_session` VALUES ('3d9m1njw19ylj6fu9ly0dkcp5hnc13qg', 'MjRjODY1ZTYwMmM4N2Y1ZTBhYWZmODQ1Y2VjNThkNjNkNzc1ZDZjMDp7InVzZXJfbmFtZSI6Inh4YyJ9', '2019-01-18 12:04:41.623000');
 
 -- ----------------------------
 -- Table structure for emp_info
@@ -335,19 +342,27 @@ CREATE TABLE `emp_info`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `foster_order`;
 CREATE TABLE `foster_order`  (
-  `foster_num` int(11) NOT NULL,
-  `starttime` datetime(6) NULL DEFAULT NULL,
-  `endtime` datetime(6) NULL DEFAULT NULL,
+  `foster_num` int(11) NOT NULL AUTO_INCREMENT,
+  `starttime` date NULL DEFAULT NULL,
   `price` int(11) NULL DEFAULT NULL,
   `cage_num` int(11) NULL DEFAULT NULL,
   `pet_num` int(11) NULL DEFAULT NULL,
   `product_num` int(11) NULL DEFAULT NULL,
+  `endtime` date NULL DEFAULT NULL,
   PRIMARY KEY (`foster_num`) USING BTREE,
   INDEX `foster_order_cage_num_ae9d7d0c_fk_cage_cage_num`(`cage_num`) USING BTREE,
+  INDEX `foster_order_pet_num_ece563f2_fk_member-pet_pet_num`(`pet_num`) USING BTREE,
   INDEX `foster_order_product_num_49200f1b_fk_inventory_product_num`(`product_num`) USING BTREE,
   CONSTRAINT `foster_order_cage_num_ae9d7d0c_fk_cage_cage_num` FOREIGN KEY (`cage_num`) REFERENCES `cage` (`cage_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `foster_order_pet_num_ece563f2_fk_member-pet_pet_num` FOREIGN KEY (`pet_num`) REFERENCES `member-pet` (`pet_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `foster_order_product_num_49200f1b_fk_inventory_product_num` FOREIGN KEY (`product_num`) REFERENCES `inventory` (`product_num`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of foster_order
+-- ----------------------------
+INSERT INTO `foster_order` VALUES (23, '2019-01-06', 100, 1, 1, 2, '2019-01-07');
+INSERT INTO `foster_order` VALUES (24, '2019-01-07', 100, 1, 1, 2, '2019-01-07');
 
 -- ----------------------------
 -- Table structure for inventory
@@ -367,43 +382,48 @@ CREATE TABLE `inventory`  (
 -- ----------------------------
 -- Records of inventory
 -- ----------------------------
-INSERT INTO `inventory` VALUES (1, '猫粮', 20, 100, 3, 2, 2400);
-INSERT INTO `inventory` VALUES (2, '狗粮', 30, 120, 4, 3, 300);
+INSERT INTO `inventory` VALUES (1, '猫粮', 20, 100, 3, 2, 1200);
+INSERT INTO `inventory` VALUES (2, '狗粮', 30, 120, 4, 3, 200);
 
 -- ----------------------------
 -- Table structure for member
 -- ----------------------------
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member`  (
-  `mem_num` int(11) NOT NULL AUTO_INCREMENT,
+  `mem_num` int(11) NOT NULL,
   `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `point` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`mem_num`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of member
 -- ----------------------------
-INSERT INTO `member` VALUES (1, 'xxc', 'xxc', 'type', 0);
-INSERT INTO `member` VALUES (2, 'xxc', 'xxc', 'type', 0);
+INSERT INTO `member` VALUES (1, 'hhh', 'hhh', '', 5);
 
 -- ----------------------------
--- Table structure for member_pet
+-- Table structure for member-pet
 -- ----------------------------
-DROP TABLE IF EXISTS `member_pet`;
-CREATE TABLE `member_pet`  (
+DROP TABLE IF EXISTS `member-pet`;
+CREATE TABLE `member-pet`  (
   `pet_num` int(11) NOT NULL,
   `pet_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sex` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
   `size` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `mem_num` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`pet_num`) USING BTREE,
   INDEX `member-pet_mem_num_40af43b5_fk_member_mem_num`(`mem_num`) USING BTREE,
   CONSTRAINT `member-pet_mem_num_40af43b5_fk_member_mem_num` FOREIGN KEY (`mem_num`) REFERENCES `member` (`mem_num`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of member-pet
+-- ----------------------------
+INSERT INTO `member-pet` VALUES (1, '泰迪', '男', 1, '小', 1);
+INSERT INTO `member-pet` VALUES (2, '拉布拉多', '女', 1, '大', 1);
 
 -- ----------------------------
 -- Table structure for salary_order
@@ -425,7 +445,7 @@ CREATE TABLE `salary_order`  (
 DROP TABLE IF EXISTS `service_reservation`;
 CREATE TABLE `service_reservation`  (
   `res_num` int(11) NOT NULL,
-  `datetime` datetime(0) NULL DEFAULT NULL,
+  `datetime` datetime(6) NULL DEFAULT NULL,
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `final_price` int(11) NULL DEFAULT NULL,
   `emp_num` int(11) NULL DEFAULT NULL,
@@ -439,7 +459,7 @@ CREATE TABLE `service_reservation`  (
   INDEX `service_reservation_service_num_36767d84_fk_service_t`(`service_num`) USING BTREE,
   CONSTRAINT `service_reservation_emp_num_881be7a5_fk_emp_info_emp_num` FOREIGN KEY (`emp_num`) REFERENCES `emp_info` (`emp_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `service_reservation_mem_num_cb5e20eb_fk_member_mem_num` FOREIGN KEY (`mem_num`) REFERENCES `member` (`mem_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `service_reservation_pet_num_e3717afe_fk_member-pet_pet_num` FOREIGN KEY (`pet_num`) REFERENCES `member_pet` (`pet_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `service_reservation_pet_num_e3717afe_fk_member-pet_pet_num` FOREIGN KEY (`pet_num`) REFERENCES `member-pet` (`pet_num`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `service_reservation_service_num_36767d84_fk_service_t` FOREIGN KEY (`service_num`) REFERENCES `service_type` (`service_num`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -464,18 +484,12 @@ CREATE TABLE `stock_order`  (
   `final_price` int(11) NULL DEFAULT NULL,
   `product_num` int(11) NULL DEFAULT NULL,
   `time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`stock_num`) USING BTREE,
-  INDEX `stock_order_product_num_9ca696ef`(`product_num`) USING BTREE,
-  CONSTRAINT `stock_order_product_num_9ca696ef_fk_inventory_product_num` FOREIGN KEY (`product_num`) REFERENCES `inventory` (`product_num`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`stock_num`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stock_order
 -- ----------------------------
 INSERT INTO `stock_order` VALUES (8, 100, 200, 1, '2019-01-02');
-INSERT INTO `stock_order` VALUES (9, 100, 200, 1, '2019-01-03');
-INSERT INTO `stock_order` VALUES (10, 1000, 2000, 1, '2019-01-03');
-INSERT INTO `stock_order` VALUES (11, 100, 200, 1, '2019-01-06');
-INSERT INTO `stock_order` VALUES (12, 100, 300, 2, '2019-01-06');
 
 SET FOREIGN_KEY_CHECKS = 1;
