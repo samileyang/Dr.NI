@@ -1,0 +1,29 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <form action="/add_product/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="product_num">编号</label>
+                <select type="number" class="form-control" name="product_num" id="product_num">
+                    <option>请选择编号</option>
+                    {% for product in products1 %}
+                    <option> {{ product.product_num }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">数量</label>
+                <input type="number" name="amount" class="form-control" id="amount">
+            </div>
+
+            <button type="button" onclick
+                ="window.location.href='/input_history'"
+                class="button btn-primary">
+            查看添加历史
+            </button>
+            <button type="submit" class="btn btn-primary" onclick="alert('确认要添加商品嘛？'")>确定</button>
+            <button type="button" onclick="window.location.href='/check_inventory'" class="btn btn-primary">查看现有商品</button>
+        </form>
+    </div>
+{% endblock context %}

@@ -1,0 +1,75 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <table class="table table-hover" id ="tb">
+            <thead>
+            <tr>
+
+                <th scope="col">员工编号</th>
+                <th scope="col">姓名</th>
+                <th scope="col">基本工资</th>
+                <th scope="col">当月绩效(订单提成)</th>
+                <th scope="col">核计工资</th>
+                <th scope="col">发放该月工资</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for emp in emps %}
+                <tr id ="tr_{{ emp.emp_id }}">
+                    <td>{{ emp.emp_id }}</td>
+                    <td>{{ emp.emp_name }}</td>
+                    <td>{{ emp.basic_salary }}</td>
+                    <td>{{ emp.performance_salary }}</td>
+                    <td>{{ emp.basic_salary|add:emp.performance_salary }}</td>
+                    <td>
+                        <button type="button" id="pay_salary_{{ emp.emp.emp_num }}" value="{{ emp.emp.emp_num }}" class="button btn-success">
+                            确认发放
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+    $("#tb").on('click', "button[id^='pay_salary']", function () {
+        // 姓名
+        var emp_name = $(this).parents('td').parents('tr').children('td').eq(1).html();
+        // 薪水
+        var salary = $(this).parents('td').parents('tr').children('td').eq(4).html();
+        var token = getCookie('csrftoken');
+        $.ajax({
+            url: "/pay_salary",
+            type: "POST",
+            async: true,
+            headers:{'X-CSRFToken': token},
+            data:{
+                "emp_name":emp_name,
+                "salary":salary
+            },
+            dataType: "json",
+            success: function(data){
+                alert("发放薪水成功！")
+                console.log(data);
+                location.reload();
+            },
+            error:function(err){
+                console.log(err.statusText);
+            }
+        });
+    });
+
+    function getCookie(name){
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null)
+            return unescape(arr[2]);
+        return null;
+    }
+</script>
+{% endblock context %}
+
+
+
+

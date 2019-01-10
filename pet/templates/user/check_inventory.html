@@ -1,0 +1,39 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <table class="table table-hover">
+            <button type="button" onclick
+                ="window.location.href='/add_product'"
+                class="button btn-primary">
+            添加商品
+            </button>
+            <button type="button" onclick="window.location.href='/check_inventory'" class="btn btn-primary">查看现有商品</button>
+            <thead>
+            <tr>
+                <th scope="col">编号</th>
+                <th scope="col">商品名称</th>
+                <th scope="col">最小值</th>
+                <th scope="col">最大值</th>
+                <th scope="col">入库价格</th>
+                <th scope="col">售价</th>
+                <th scope="col">剩余数量</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.product_num }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.min }}</td>
+                    <td>{{ product.max }}</td>
+                    <td>{{ product.stock_price }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.amount }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock context %}
+

@@ -1,0 +1,24 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <form action="/add_emp/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="emp_num">员工编号</label>
+                <input type="text" class="form-control" name="emp_num" id="emp_num">
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" name="name" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="position">员工职位</label>
+                <input type="text" name="position" class="form-control" id="position">
+            </div>
+            
+
+            <button type="submit" class="btn btn-primary">确定</button>
+            <button type="button" onclick="window.location.href='/emp_list'" class="btn btn-primary">返回</button>
+        </form>
+    </div>
+{% endblock context %}

@@ -1,0 +1,40 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <br>
+        <button type="button" onclick="window.location.href='/load_emp_form'" style="float: right" class="button btn-primary">
+            新建员工
+        </button>
+        <br>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">员工编号</th>
+                <th scope="col">姓名</th>
+                <th scope="col">员工职位</th>
+                <th scope="col">修改</th>
+                <th scope="col">删除</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for emp in emps %}
+                <tr>
+                    <td>{{ emp.emp_num }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.position }}</td>
+                    <td>
+                        <button type="button" onclick="window.location.href='/load_emp_update_form?emp_num={{ emp_num }}'" class="button btn-success">
+                            修改
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="window.location.href='/delete_emp?emp_num={{ emp_num }}'" class="button btn-danger">
+                            删除
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock context %}
