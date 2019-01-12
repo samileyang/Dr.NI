@@ -10,14 +10,12 @@
 </head>
 <body>
     <div class="menu">
-
-    <ul style="margin-left: 20px">
-        <li style="font-size: 16px" onclick="window.location.href='/user_register'">宠物|商店</li>
-        <li><a href="">服务预约</a></li>
-        <li><a href="">宠物寄养</a></li>
-        <li><a href="">积分兑换</a></li>
-        <li><a href="">历史订单</a></li>
-        <li><a href="/user_mypet">我的宠物</a></li>
+    <ul style="margin-left: 20px,margin-top:10px">
+        <li style="font-size: 16px, margin: 0 0 0 10px"  onclick="window.location.href='/user_mypet'">宠物|商店</li>
+        <li style="margin: 0 0 0 10px" onclick="window.location.href='/service_reservation'">服务预约</li>
+        <li style="margin: 0 0 0 10px" onclick="window.location.href='/user_products'">积分兑换</li>
+        <li style="margin: 0 0 0 10px" onclick="window.location.href='/history'">历史订单</li>
+        <li style="margin: 0 0 0 10px" onclick="window.location.href='/user_mypet'">我的宠物</li>
     </ul>
     <ul style="float: right">
         <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>

@@ -1,26 +1,41 @@
 {% extends "user/user_header.html" %}
 {% block context %}
-   <div class="container">
-         <li>这是{{ request.session.user_name }}的宠物界面</li>
-         <table>
-            <tbody>
-                {% for mypet in mypets %}
-
-                    <tr>
-                   		<td>{{ mypet.pet_num }}</td>
-                    	<td>{{ mypet.pet_type }}</td>
-                        <td>{{ mypet.sex }}</td>
-                        <td>{{ mypet.status }}</td>
-                        <td>{{ mypet.size }}</td>
-                        <td>
-                            <button type="button" class="button btn-primary">
-                                <a>寄养</a>
-                            </button>
-                        </td>
-                    </tr>
-
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="container">
+        <li>这是{{ request.session.user_name }}的宠物界面</li>
+        
+        {% for pets in pets %}
+            {% if pets.status == 1 %}
+            <form action="/add_foster/" method="post">
+                {% csrf_token %}
+                <div class="form-group"> 
+                    <label for="pet_num">{{ pets.pet_num }}</label>
+                    <label for="pet_type">{{ pets.pet_type }}</label>
+                    <label for="sex">{{ pets.sex }}</label>
+                    <label for="size">{{ pets.size }}型</label>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-success">
+                        <a href="/foster?pet_num={{ pets.pet_num }}">寄养</a>
+                    </button>
+                </div>
+            </form>
+            {% else %}
+            <form action="/end_foster/" method="get">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="pet_num">{{ pets.pet_num }}</label>
+                    <label for="pet_type">{{ pets.pet_type }}</label>
+                    <label for="sex">{{ pets.sex }}</label>
+                    <label for="size">{{ pets.size }}型</label>
+                    <input type="hidden" name="pet_num" value="{{ pets.pet_num }}">
+                    <input type="submit" name="end_foster" value="结束寄养">
+                </div>
+            </form>
+            {% endif %}
+        {% endfor %}
+        <button type="button" class="btn btn-success">
+                        <a href="/add_pet">添加宠物</a>
+                    </button>
     </div>
+
 {% endblock context %}

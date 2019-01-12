@@ -1,0 +1,93 @@
+{% extends "user/user_header.html" %}
+{% block context %}
+    <div class="container">
+        <h5>服务订单</h5>>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">订单号</th>
+                <th scope="col">服务员工编号</th>
+                <th scope="col">会员编号</th>
+                <th scope="col">服务编号</th>
+                <th scope="col">价格</th>
+                <th scope="col">订单状态</th>
+                <th scope="col">我的评分</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.res_num }}</td>
+                    <td>{{ order.emp_num }}</td>
+                    <td>{{ order.mem_num }}</td>
+                    <td>{{ order.service_num }}</td>
+                    <td>{{ order.final_price }}</td>
+                    {% if order.status == False %}
+                    <td>完成</td>
+                    {% else %}
+                    <td>未完成</td>
+                    {% endif %}
+                    {% if order.comment is null %}
+                    <td><button type="button" onclick="window.location.href='/comment'" class="btn btn-primary">评价</button></td>
+                    {% else %}
+                    <td>{{ order.comment }}</td>
+                    {% endif %}                   
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <h5>积分兑换</h5>>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">订单号</th>
+                <th scope="col">会员编号</th>
+                <th scope="col">商品编号</th>
+                <th scope="col">数量</th>
+                <th scope="col">积分</th>
+                <th scope="col">日期</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for credit in credits %}
+                <tr>
+                    <td>{{ credit.order_num }}</td>
+                    <td>{{ credit.mem_num }}</td>
+                    <td>{{ credit.product_num }}</td>
+                    <td>{{ credit.amount }}</td>
+                    <td>{{ credit.point }}</td>
+                    <td>{{ credit.date }}</td>       
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h5>寄养订单</h5>>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">订单号</th>
+                <th scope="col">宠物编号</th>
+                <th scope="col">笼子编号</th>
+                <th scope="col">商品编号</th>
+                <th scope="col">服务</th>
+                <th scope="col">价格</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for foster in fosters %}
+                <tr>
+                    <td>{{ foster.foster_num }}</td>
+                    <td>{{ foster.pet_num }}</td>
+                    <td>{{ foster.cage_num }}</td>
+                    <td>{{ foster.product_num }}</td>
+                    <td> 寄养 </td>
+                    <td>{{ foster.price }}</td>     
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock context %}

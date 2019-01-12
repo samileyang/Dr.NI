@@ -1,0 +1,59 @@
+{% extends "user/user_header.html" %}
+{% block context %}
+    <script>
+        let showAlert = {{ show_alert }}
+        if(showAlert === 'true'){}
+            alert("添加成功！")
+    </script>
+    <div class="container">
+        <form action="/add_service_reservation/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="datetime">预约时间</label>
+                <select class="form-control" name="datetime" id="datetime">
+                    <option>请选择时间段</option>
+                    <option>10:00-11:00</option>
+                    <option>11:00-12:00</option>
+                    <option>13:30-14:30</option>
+                    <option>14:30-15:30</option>
+                    <option>15:30-16:30</option>
+                    <option>16:30-17:30</option>
+                    <option>17:30-18:30</option>
+                    <option>18:30-19:30</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pet">宠物</label>
+                <select class="form-control" name="pet" id="pet">
+                    <option>请选择您的宠物</option>
+                    {% for pet in pets %}
+                        <option>{{ pet.pet_num }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="type">服务类别</label>
+                <select class="form-control" name="type" id="type">
+                    <option>请选择服务类别</option>
+                    {% for type in types %}
+                        <option>{{ type.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">选择员工</label>
+                <select class="form-control" name="emp_name" id="emp_name">
+                    <option>请选择员工</option>
+                    {% for emp in emps %}
+                        <option>{{ emp.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">确定</button>
+            
+        </form>
+    </div>
+
+
+
+{% endblock context %}

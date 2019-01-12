@@ -1,0 +1,30 @@
+{% extends "user/user_header.html" %}
+{% block context %}
+    <div class="container">
+        <form action="/save_foster/?pet_num={{ pet.pet_num }}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="product_num">宠物口粮</label>
+                <select type="text" class="form-control" name="name" id="name">
+                    <option>请选择：</option>
+                    {% for product in products %}
+                    <option> {{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cage_num">选择小屋</label>
+                <select type="number" class="form-control" name="cage_num" id="cage_num">
+                    <option>请选择：</option>
+                    {% for cage in cage %}
+                    {% if cage.status == 1 %}
+                        <option> {{ cage.cage_num }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">确定寄养</button>
+            <button type="button" onclick="window.location.href='/mypet'" class="btn btn-primary">返回</button>
+        </form>
+    </div>
+{% endblock context %}
