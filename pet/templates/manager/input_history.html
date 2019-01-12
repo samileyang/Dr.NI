@@ -1,16 +1,16 @@
 {% extends "manager/manager_header.html" %}
 {% block context %}
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">入库单编号</th>>
-        <th scope="col">商品编号</th>
-        <th scope="col">数量</th>
-        <th scope="col">价格</th>
-        <th scope="col">时间</th>
-    </tr>
-    </thead>
-        <tbody>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">入库单编号</th>>
+                <th scope="col">商品编号</th>
+                <th scope="col">数量</th>
+                <th scope="col">价格</th>
+                <th scope="col">时间</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for history in historys %}
                 <tr>
                     <td>{{ history.stock_num }}</td>>
@@ -20,8 +20,13 @@
                     <td>{{ history.time }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-        <button type="button" onclick="window.location.href='/add_product'"class="button btn-primary">添加商品</button>
-        <button type="button" onclick="window.location.href='/check_inventory'" class="btn btn-primary">查看现有商品</button>
+            </tbody>
+            <button type="button" onclick
+                ="window.location.href='/add_product'"
+                class="button btn-primary">
+            添加商品
+            </button>
+            <button type="button" onclick="window.location.href='/check_inventory'" class="btn btn-primary">查看现有商品</button>
+        </table>
     </div>
 {% endblock context %}

@@ -16,7 +16,7 @@
         <td>入库</td>
         <td>{{ stock.stock_num }}</td>
         <td>{{ stock.amount }}</td>
-        <td>{{ stock.price }}</td>
+        <td>{{ stock.final_price }}</td>
         {% endfor %}
     </tr>
 
@@ -28,6 +28,7 @@
         <td>{{ salary.salary_order_num }}</td>
         <td>{{ salary.emp_num }}</td>
         <td>{{ salary.datetime }}</td>
+        <td>具体工资</td>
         {% endfor %}
     </tr>
 
@@ -39,6 +40,7 @@
         <td>{{ service.res_num }}</td>
         <td>{{ service.mem_num }}</td>
         <td>{{ service.datetime }}</td>
+        <td>{{ service.final_price }}</td>
         {% endfor %}                
     </tr>
 
@@ -52,5 +54,9 @@
         <td>{{ foster.price }}</td>
         {% endfor %}                
     </tr>
+    </tbody>
+    <tbody>
+        <tr>总计</tr>
+        <tr>{{ total }}</tr>
     </tbody>
 {% endblock context %}

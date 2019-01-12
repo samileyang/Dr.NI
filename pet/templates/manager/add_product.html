@@ -5,7 +5,6 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="product_num">编号</label>
-                
                 <select type="number" class="form-control" name="product_num" id="product_num">
                     <option>请选择编号</option>
                     {% for product in products1 %}

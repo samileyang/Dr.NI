@@ -1,0 +1,32 @@
+{% extends "manager/manager_header.html" %}
+{% block context %}
+    <div class="container">
+        <form action="/add_emp_performance/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="emp_name">选择列表</label>
+                <select class="form-control" name="emp_name" id="emp_name">
+                    <option>请选择员工</option>
+                    {% for emp in emps %}
+                    <option>{{ emp.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="salary">工资</label>
+                <input type="number" class="form-control" name="salary" id="salary">
+            </div>
+            <div class="form-group">
+                <label for="salary_time">发薪时间</label>
+                <input type="text" name="salary_time" class="form-control" id="salary_time">
+            </div>
+            <button type="submit" class="btn btn-primary">确定</button>
+            <button type="button" onclick="window.location.href='/salary_list'" class="btn btn-primary">返回</button>
+        </form>
+    </div>
+{% endblock context %}
+
+
+
+
+
