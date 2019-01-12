@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工登陆</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-1.12.4.js"></script>
+{#</head>#}
+<body>
+    <div style="height:100%; padding: 10% 30%">
+        <form action="/emp_login/" method="post">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="name">用户名</label>
+            <input type="text" class="form-control" name="name" id="name"  placeholder="请输入用户名">
+          </div>
+          <div class="form-group">
+            <label for="id_password">密码</label>
+            <input type="password" name="password" class="form-control" id="id_password" placeholder="请输入密码">
+          </div>
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+    </div>
+</body>
+</html>

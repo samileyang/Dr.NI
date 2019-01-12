@@ -199,7 +199,7 @@ def check_cage(request):
 def add_foster(request):
     try:
         pet_num = request.GET.get("pet_num")
-        pet = models.MemberPet.objects.get(pet_num=pet_num)
+        pet = models.MemberPet.objects.get(pet_num = pet_num)
         products = models.Inventory.objects.all()
         cage = models.Cage.objects.all()
         return render(request, 'user/foster.html', {'pet': pet, 'products': products, 'cage': cage})
@@ -240,10 +240,6 @@ def end_foster(request):
     fosters.pet_num.save()
     pets = models.MemberPet.objects.filter(mem_num=1)
     return render(request, 'user/user_mypet.html', {'pets': pets})
-        
-# def pet_detail(request):
-#     pets = models.MemberPet.objects.get(mem_bum=request.GET.get("mem_num"))
-#     return render(request, 'user/mypet.html', {'pets': pets})        
 
 def shop(request):
     return render(request,'user/user_shop.html')
@@ -259,26 +255,23 @@ def service_reservation(request):
 def add_service_reservation(request):
     service_reservation = models.ServiceReservation()
     service_reservation.datetime = request.POST.get("datetime")
-    #service_reservation.mem = models.Member.objects.get(mem_num=request.POST.get("mem_num"))
-    
     username = request.session.get('user_name',None)
     user = models.Member.objects.get(username = username)
     mem = models.Member.objects.get(mem_num = user.mem_num)
-    # pets = models.MemberPet.objects.filter(mem_num = user.mem_num)
     emp = models.EmpInfo.objects.get(name=request.POST.get("emp_name"))
     service_reservation.res_num = 'YY' + str(datetime.date.today()).replace('-', '')+ str(random.randint(1000, 9999))
     service_reservation.status = 0
     type1 = models.ServiceType.objects.get(name=request.POST.get("type"))
     price = type1.price
     pet = models.MemberPet.objects.filter(mem_num = user.mem_num).first()
+    comment = 0
     check = str(service_reservation.datetime)+str(emp)
     service=models.ServiceReservation(res_num=service_reservation.res_num,datetime=service_reservation.datetime,
-        status=False,final_price=price,emp_num=emp,mem_num=mem,pet_num=pet,service_num=type1,
+        status=False,final_price=price,emp_num=emp,mem_num=mem,pet_num=pet,service_num=type1,comment =comment,
         check = check)
     pets = models.MemberPet.objects.all()
     emps = models.EmpInfo.objects.all()
     types = models.ServiceType.objects.all()
-
     service_reservation.save()
     service.save()
     return render(request, 'user/service_reservation.html', {'show_alert': 'true','emps': emps, 'types':types, 'pets':pets})
@@ -296,16 +289,27 @@ def history(request):
     return render(request, 'user/history.html', {'orders':orders, 'fosters':fosters,'credits':credits})
 
 def delete_service_reservation(request):
-    orders = models.Service_Reservation.objects.all();
-    orders = models.ServiceReservation.status.filter(status='false')
-    orders.delete() 
+    username = request.session.get('user_name',None)
+    user = models.Member.objects.get(username = username)
+    order = models.ServiceReservation.objects.get(res_num=request.GET.get("res_num"))
+    order.delete() 
+    orders = models.ServiceReservation.objects.filter(mem_num = user.mem_num)
     return render(request, 'user/history.html', {'orders': orders})
 
-def comment(request):
-    res_num = request.POST.get('res_num')
-    comment = request.GET.get("comments")
-    models.ServiceReservation.objects.filter(res_num=res_num).update(comment = comment)
-    return render(request, 'user/comment.html',{'show_alert':'true'})
+def update_comment(request):
+    username = request.session.get('user_name',None)
+    user = models.Member.objects.get(username = username)
+    order = models.ServiceReservation.objects.get(res_num=request.GET.get("res_num"))
+    comment = request.GET.get('comment')
+    print(comment)
+    order.comment =comment
+    order.save()
+    orders = models.ServiceReservation.objects.filter(mem_num = user.mem_num)
+    return render(request, 'user/update_comment.html',{'orders':orders})
+
+def load_comment_update_form(request):
+    order = models.ServiceReservation.objects.get(res_num=request.GET.get("res_num"))
+    return render(request, 'user/update_comment.html', {'order': order})
 
 def available_order(request):
     emp = models.EmpInfo.objects.get(emp_num=request.session['emp_num'])
@@ -338,16 +342,16 @@ def dict_to_bean(dict_obj, bean):
             continue
         setattr(bean, p, dict_obj.get(p))
 
-
 def check_all(request):
     stocks = models.StockOrder.objects.all()
     services = models.ServiceReservation.objects.all()
-    salarys = models.SalaryOrder.objects.all()
+    salarys = models.Salary_Histroy.objects.all()
     fosters = models.FosterOrder.objects.all()
     sum_stock=models.StockOrder.objects.aggregate(Sum("final_price"))['final_price__sum']
     sum_service=models.ServiceReservation.objects.aggregate(Sum("final_price"))['final_price__sum']
     sum_salary=models.Salary_Histroy.objects.aggregate(Sum("salary"))['salary__sum']
     sum_foster=models.FosterOrder.objects.aggregate(Sum("price"))['price__sum']
     total = sum_foster+sum_service-sum_stock-sum_salary
+    print(sum_salary)
     print(total)
     return render(request,'manager/check_all.html',{'stocks':stocks,'services':services,'salarys':salarys,'fosters':fosters,'total':total})

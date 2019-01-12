@@ -11,15 +11,15 @@
 <body>
     <div class="menu">
 
-    <ul style="margin-left: 20px">
+    <ul style="margin-left: 20px;margin-top:10px">
         <li style="font-size: 16px" onclick="window.location.href='/emp_main'">员工|系统</li>
-        <li><a href="">我的订单</a></li>
-        <li><a href="">我的工资</a></li>
-        <li><a href="">笼子检查</a></li>
+           <li><a href="/available_order">可接订单</a></li>
+        <li><a href="/finished_order">完成订单</a></li>
+        <li><a href="/my_salary">我的工资</a></li>
     </ul>
     <ul style="float: right">
-        <li><a href="">注册</a></li>
-        <li><a href="">登录</a></li>
+        <li><a href="">已在{{ emp_name }}登录</a></li>
+        <li style="font-size: 16px" onclick="window.location.href='/index'">退出</a></li>
     </ul>
 </div>
     {% block context %}

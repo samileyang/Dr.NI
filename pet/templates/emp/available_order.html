@@ -1,0 +1,35 @@
+{% extends "emp/emp_header.html" %}
+{% block context %}
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">订单号</th>
+                <th scope="col">服务类别</th>
+                <th scope="col">宠物编号</th>
+                <th scope="col">会员编号</th>
+                <th scope="col">价格</th>
+                <th scope="col">预约时间</th>
+                <th scope="col">接单</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.res_num }}</td>
+                    <td>{{ order.service_num.name }}</td>
+                    <td>{{ order.pet_num.pet_num }}</td>
+                     <td>{{ order.mem_num.username }}</td>
+                    <td>{{ order.final_price }}</td>
+                    <td>{{ order.datetime }}</td>
+                    <td>
+                        <button type="button" onclick="window.location.href='/take_order?order_id={{ order.res_num }}'"  class="button btn-success">
+                            我要接单
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock context %}

@@ -12,6 +12,7 @@
                 <th scope="col">价格</th>
                 <th scope="col">订单状态</th>
                 <th scope="col">我的评分</th>
+                <th scope="col">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -22,16 +23,31 @@
                     <td>{{ order.mem_num }}</td>
                     <td>{{ order.service_num }}</td>
                     <td>{{ order.final_price }}</td>
-                    {% if order.status == False %}
-                    <td>完成</td>
+                    {% if order.status == True %}
+                    <td>完成</td>                               
                     {% else %}
                     <td>未完成</td>
                     {% endif %}
-                    {% if order.comment is null %}
-                    <td><button type="button" onclick="window.location.href='/comment'" class="btn btn-primary">评价</button></td>
+                    {% if order.comment == '0' %}
+                    <td>
+                        <button type="button" onclick="window.location.href='/load_comment_update_form?res_num={{ order.res_num }}'" class="button btn-success">
+                            评价
+                        </button>
+                        <input type="hidden" name="res_num" value="{{ order.res_num }}">
+                    </td>
                     {% else %}
                     <td>{{ order.comment }}</td>
-                    {% endif %}                   
+                    {% endif %} 
+                    {% if order.status == False %}
+                    <td>
+                        <button type="button" onclick="window.location.href='/delete_service_reservation?res_num={{ order.res_num }}'" class="btn btn-danger">取消订单</button>
+                    </td>                               
+                    {% else %}
+                    <td>
+                        <button type="button" disabled="disabled" onclick="window.location.href='/delete_service_reservation?res_num={{ order.res_num }}'" >取消订单</button>
+                    </td>                
+                    {% endif %}       
+                                                           
                 </tr>
             {% endfor %}
             </tbody>
